@@ -1,13 +1,27 @@
 // Retrieve tasks and nextId from localStorage
 let taskList = JSON.parse(localStorage.getItem("tasks"));
 let nextId = JSON.parse(localStorage.getItem("nextId"));
+const todoList = $("#todo-cards");
+const formModal = $("#formModal");
+
+//local storage items
+function readLocalStorage() {
+    let taskList = JSON.parse(localStorage.getItem("taskList")) || [];
+    return taskList;
+}
+
+// save the task list 
+function saveLocalStorage(taskList) {
+    localStorage.setItem("taskList", JSON.stringify(taskList));
+}
 
 // Todo: create a function to generate a unique task id
 function generateTaskId() {
-    nextId++;
-    localStorage.setItem("nextId", JSON.stringify(nextId));
-    return nextId; 
+    const taskId = "id" + new Date().getTime();
+    uniquetaskId = taskId;
+    return uniquetaskId;  
 }
+
 
 // Todo: create a function to create a task card
 function createTaskCard(task) {
@@ -29,22 +43,22 @@ function createTaskCard(task) {
 
 // Todo: create a function to render the task list and make cards draggable
 function renderTaskList() {
-        const container = document.getElementById('task-container');
-        container.innerHTML = '';
-        if (taskList) {
-            taskList.forEach(task => {
-                const card = createTaskCard(task);
-                container.appendChild(card);
-            });
-        }
-        
-        // Make the cards draggable
-        $('.task-card').draggable({
-            revert: true,
-            helper: 'clone'
-        });
-    }
-    
+    const taskList = readLocalStorage();
+    const todoColumn = $("#todo-cards");
+    const inProgressColumn = $("#in-progress-cards");
+    const doneColumn = $("#done-cards");
+    todoColumn.empty();
+    inProgressColumn.empty();
+    doneColumn.empty();
+
+    // this makes the cards draggable 
+    $(".draggable").draggable({
+        opacity: 0.7,
+        zIndex: 100,
+    });
+
+}
+
 
 // Todo: create a function to handle adding a new task
 function handleAddTask(event){
@@ -78,14 +92,16 @@ function handleAddTask(event){
 
 // Todo: create a function to handle deleting a task
 function handleDeleteTask(event){
-        const card = event.target.closest('.task-card');
-        const taskId = parseInt(card.dataset.id, 10);
-        
-        taskList = taskList.filter(task => task.id !== taskId);
-        localStorage.setItem("tasks", JSON.stringify(taskList));
-        
-        renderTaskList();
-    }
+       const taskId = $(this).attr("data-task-id");
+       const taskList = readLocalStorage();
+
+       taskList.forEach((task) => {
+        if (task.id === taskId) {
+            taskList.splice(taskList.indexOf(task), 1);
+        }
+       });
+
+
     
 
 
