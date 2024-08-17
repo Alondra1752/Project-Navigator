@@ -26,6 +26,36 @@
     </div>
     <!-- Todo: Create a modal with a form to add tasks -->
      <!--Modal structure-->
+     <div class="modal fade" id="formModal" tabindex="-1" aria-labelledby="formModalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="formModalLabel">What is your task?</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <form id="add-task-form">
+              <div class="mb-3">
+                <label for="task" class="form-label">Task Title</label>
+                <input type="text" class="form-control" id="task" placeholder="Add Task" required>
+              </div>
+              <div class="mb-3">
+                <label for="date" class="form-label">Due Date</label>
+                <input type="date" class="form-control" id="date" required>
+              </div>
+              <div class="mb-3">
+                <label for="text" class="form-label">Description</label>
+                <textarea class="form-control" id="text" placeholder="Text Description" rows="3" required></textarea>
+              </div>
+              <button type="submit" class="btn btn-primary" id="save">Save</button>
+            </form>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+          </div>
+        </div>
+      </div>
+    </div>
      <div class="taskModal" class="modal">
       <div class="modal-content">
         <div class="modal-header">
@@ -48,8 +78,8 @@
       </div>
      </div>
      </div>
-     
-     
+
+     <!--Task Board-->
     <div class="row swim-lanes text-center justify-content-between">
       <div class="col-12 col-lg-4 d-flex">
         <div id="to-do" class="card border-light mb-3 lane flex-grow-1">
