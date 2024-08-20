@@ -25,13 +25,13 @@ function generateTaskId() {
 
 // Todo: create a function to create a task card
 function createTaskCard(task) {
-    let taskCard = $('div></div').addClass('task-card').attr('id', 'task-' + task.id);
-    let taskTitle = $('<h3></h3>').text(task.description);
+    let taskCard = $('div></div').addClass('task-card').attr('id', 'task-' + task.id).data('task-id', task.id);
+    let taskTitle = $('<h3></h3>').text(task.title);
     let taskDueDate= $('p></p>').text('Due Date: ' + task.dueDate);
     let deleteButton= $('<button></button>').addClass('btn btn-danger').text('Delete').on('click', handleDeleteTask);
 
-    taskCard.append(taskTitle, taskDescription, taskDueDate, deleteButton);
-    taskCard.draggable({
+    taskCard.append(taskTitle, taskDueDate, deleteButton);
+    taskCard.addClass('draggable'). draggable({
         revert: "invalid",
         zIndex: 1000
     });
@@ -73,16 +73,17 @@ function renderTaskList() {
 function handleAddTask(event){
         event.preventDefault();
         
-        const title = document.getElementById('task-title').value;
-        const description = document.getElementById('task-description').value;
-        const dueDate = document.getElementById('task-due-date').value;
+        const title = document.getElementById('task').value;
+        const description = document.getElementById('text').value;
+        const dueDate = document.getElementById('date').value;
         
         if (title && description && dueDate) {
             const newTask = {
                 id: generateTaskId(),
                 title: title,
                 description: description,
-                dueDate: dueDate
+                dueDate: dueDate,
+                status: "to-do"
             };
             
             taskList = taskList || [];
@@ -92,9 +93,9 @@ function handleAddTask(event){
             renderTaskList();
             
             // Clear the form fields
-            document.getElementById('task-title').value = '';
-            document.getElementById('task-description').value = '';
-            document.getElementById('task-due-date').value = '';
+            document.getElementById('task').value = '';
+            document.getElementById('text').value = '';
+            document.getElementById('date').value = '';
         }
     }
     
@@ -119,16 +120,17 @@ saveLocalStorage(taskList);
 // Todo: create a function to handle dropping a task into a new status lane
 function handleDrop(event, ui) {
         const taskList = readLocalStorage();
-        const taskId = uo.draggable[0].dataset.taskId;
+        const taskId = ui.draggable.data('task-id');
         const status = event.target.id;
 
 // lopp to update the status of checklist 
 for (let task of taskList) {
     if (task.id === taskId) {
         task.status = status;  
+        break; // this exits the loop early after finding the task
     }
 }
-    localStorage.setItem("taskList", JSON.stringify(taskList));
+    savelocalStorage.setItem(taskList);
     renderTaskList();
 }
 
