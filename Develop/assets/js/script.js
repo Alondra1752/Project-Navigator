@@ -18,8 +18,8 @@ function saveLocalStorage(taskList) {
 // Todo: create a function to generate a unique task id
 function generateTaskId() {
     const taskId = "id" + new Date().getTime();
-    uniquetaskId = taskId;
-    return uniquetaskId;  
+    return taskId;
+      
 }
 
 
@@ -28,8 +28,7 @@ function createTaskCard(task) {
     let taskCard = $('div></div').addClass('task-card').attr('id', 'task-' + task.id).data('task-id', task.id);
     let taskTitle = $('<h3></h3>').text(task.title);
     let taskDueDate= $('p></p>').text('Due Date: ' + task.dueDate);
-    let deleteButton= $('<button></button>').addClass('btn btn-danger').text('Delete').on('click', handleDeleteTask);
-
+    
     taskCard.append(taskTitle, taskDueDate, deleteButton);
     taskCard.addClass('draggable'). draggable({
         revert: "invalid",
@@ -54,11 +53,13 @@ function renderTaskList() {
     for (let i of taskList) {
         if (i.status === "to-do"){
             todoColumn.append(createTaskCard(i));
-        } else {
+        } else if (i.status === "in-progress") {
+            inProgressColumn.append(createTaskCard(i));
+        } else if (i.status === "done") {
             doneColumn.append(createTaskCard(i));
+        }
 
         }
-    }
 
     // this makes the cards draggable 
     $(".draggable").draggable({
@@ -66,7 +67,6 @@ function renderTaskList() {
         zIndex: 100,
     });
 
-}
 
 
 // Todo: create a function to handle adding a new task
@@ -86,9 +86,9 @@ function handleAddTask(event){
                 status: "to-do"
             };
             
-            taskList = taskList || [];
             taskList.push(newTask);
-            localStorage.setItem("tasks", JSON.stringify(taskList));
+            saveLocalStorage(taskList);
+            
             
             renderTaskList();
             
@@ -138,6 +138,10 @@ for (let task of taskList) {
 
 // Todo: when the page loads, render the task list, add event listeners, make lanes droppable, and make the due date field a date picker
 $(document).ready(function () {
+    const formModal = new bootstrap.Modal(document.getElementById('formModal'));
+    formModal.show();
+
+
     formModal.on("submit", handleAddTask);
         renderTaskList();
         
