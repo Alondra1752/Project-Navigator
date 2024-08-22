@@ -6,10 +6,10 @@ Project Navigator is a task board application that empowers teams to streamline 
 
 Click on the link on the bottom of this page to start using the Project Navigator! On this app, you can 
 - Create tasks
-    - Add the task title, a description, and the due date 
+    - Add the task title, a description, and the due date of your task
 - Organize tasks
     - Drag and drop tasks between columns to reflect their current status. 
-- Monitor Project Progress
+- Monitor Project Progress such as when the task is due
 
 ![alt text](image-1.png) 
 
@@ -17,10 +17,11 @@ Click on the link on the bottom of this page to start using the Project Navigato
 
 Deployment Link: 
 
+https://alondra1752.github.io/Project-Navigator/
 
 Repository Link: 
 
-
+https://github.com/Alondra1752/Project-Navigator.git
 
 
 ## Credits
