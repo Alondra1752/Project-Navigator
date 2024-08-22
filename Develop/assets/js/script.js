@@ -60,6 +60,7 @@ function renderTaskList() {
         }
 
         }
+    }
 
     // this makes the cards draggable 
     $(".draggable").draggable({
@@ -88,7 +89,7 @@ function handleAddTask(event){
             
             taskList.push(newTask);
             saveLocalStorage(taskList);
-            
+
             
             renderTaskList();
             
