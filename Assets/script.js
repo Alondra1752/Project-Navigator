@@ -130,7 +130,7 @@ for (let task of taskList) {
         break; // this exits the loop early after finding the task
     }
 }
-    saveLocalStorage.setItem(taskList);
+    saveLocalStorage(taskList);
     renderTaskList();
 }
 
@@ -138,12 +138,16 @@ for (let task of taskList) {
 
 // Todo: when the page loads, render the task list, add event listeners, make lanes droppable, and make the due date field a date picker
 $(document).ready(function () {
-    const modal = new bootstrap.Modal(document.getElementById('formModal'));
-    modal.show();
-
+    const modalElement = document.getElementById('formModal');
+    if (modalElement) {
+        const modal = new bootstrap.Modal(modalElement);
+        modal.show();
+    } else {
+        console.error('Modal element not found');
+    }
 
     $('#formModal form').on("submit", handleAddTask);
-        renderTaskList();
+    renderTaskList();
         
         // Initialize date picker
         $('#date').datepicker({
